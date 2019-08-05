@@ -1,0 +1,17 @@
+---
+knit: "bookdown::render_book"
+---
+
+# List of figures {-}
+
+The abstract is a summary of the whole thesis. Typically this section would have about 250-350 words. Check the rules of your School or University.
+
+
+
+
+
+
+
+
+
+

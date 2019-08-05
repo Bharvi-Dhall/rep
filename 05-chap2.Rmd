@@ -1,0 +1,23 @@
+---
+chapter:2
+knit: "bookdown::render_book"
+---
+
+#Outline of Bioconductor Ecosystem
+
+Bioconductor is a collection of packages in R mainly used for genomics study and analysis.
+
+
+
+##Seurat object {#sec:seurat}
+The analysis of the two datasets is conducted with the help of Seurat Package version 3.0.  Seurat is a toolkit for quality control, analysis, and exploration of single cell RNA sequencing data. 'Seurat' aims to enable users to identify and interpret sources of heterogeneity from single cell transcriptomic measurements, and to integrate diverse types of single cell data. Seurat is developed and maintained by the Satija lab [@seurat].</br>
+  
+The Seurat package supports improved methods of normalization and removes any variations that occur due to technical faults10. It provides a flexible framework for multiple dataset integration and was used to integrate various datasets for bone marrow data. Seurat has an advantage in dealing with biological data as it automatically saves data as a sparse matrix.    
+Seurat package stores all information of dataset and the analysis results as a Seurat object.A Seurat object is created with the raw counts which contains various slots which will store not only the raw input data but also results from various computations. The function to create a Seurat object is:
+
+CreateSeuratObject(counts, project = "SeuratProject", assay = "RNA")
+
+Here, the counts refer the unnormalized data such as raw counts and the project sets name for the Seurat object and assay gives name of assay corresponding to input data, in our case RNA.
+
+A Seurat object named pbmc and dall were created for liver and bonemarrow datasets respectivey. using package Seurat.
+\includegraphics[scale=1.1]{seuratslots.JPG}

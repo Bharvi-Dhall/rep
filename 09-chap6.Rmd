@@ -1,0 +1,9 @@
+---
+chapter:5
+knit: "bookdown::render_book"
+---
+
+#RESULTS (b){#ch:resultsb}  
+
+\textbf{Bonemarrow Dataset:}  
+The raw counts were filtered and the number of cells after removal of low-quality cells was reduced to 76645 from 90653.Remaining 76645 cells were used for final analysis.

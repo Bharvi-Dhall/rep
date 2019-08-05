@@ -1,0 +1,10 @@
+---
+knit: "bookdown::render_book"
+---
+
+#Table of Contents {-}
+
+<!-- 
+The following line is required to re-set page numbering after preliminary material. Do not remove
+-->
+\clearpage\pagenumbering{arabic}\setcounter{page}{0}

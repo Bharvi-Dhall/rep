@@ -1,0 +1,46 @@
+---
+chapter:4
+knit: "bookdown::render_book"
+---
+
+#RESULTS (a){#ch:results}
+
+\textbf{Liver Dataset:}   
+The liver dataset was analysed and the samples were clustered to reveal 21 distinct cell populations in human liver. Differentially expressed genes were calculated for each cluster and were studied to label each cluster.Clusters with presence of senescence related profiles were detected.Gene co-expression analysis was performed to find modules of senescent associated genes.
+
+##Highly Variable Genes {#sec:hvres}
+The FindVariableFeatures \ref{sec:vg} function facilitated the selection of 7000 HVG from normalized data.The selected HVG were used for PCA.
+
+\begin{figure}[H]
+  \includegraphics[scale=0.5]{hvgliver.JPG}
+  \caption{Variable Genes Plot}
+  \label{fig:fig1}
+\end{figure}
+
+Figure \ref{fig:fig1} labels the top 10 HVG and highlights HVG and the genes which are non-variable.In the plot, X-axis function is the mean expression level, and for Y-axis it is the log(Variance/mean). 
+
+\textit{Note:All mean/variance calculations are not performed in log-space, but the results are reported in log-space.\footnote{For documentation please refer \url{https://www.rdocumentation.org/packages/Seurat/versions/3.0.2/topics/FindVariableFeatures}}}
+
+##Principal Component Analysis: {#sec:pcares}
+After computation of HVG, the data was scaled The principal was performed on variable genes and 50 principal components (PC) were obtained.The first two principal components accounted for maximum variability in the data.
+
+\begin{figure}[H]
+  \includegraphics[scale=0.5]{pcaliver.JPG}
+  \caption{Principal Component Plot of five samples}
+  \label{fig:fig2}
+\end{figure}
+
+Figure \ref{fig:fig2} plots the first two principal components of the samples.VizDimLoadings\footnote{https://www.rdocumentation.org/packages/Seurat/versions/3.0.2/topics/VizDimLoadings} function in Seurat v3 can be used to visualize top genes associated with principal components. 
+
+\begin{figure}[H]
+  \includegraphics[scale=0.4]{pcloadliver.JPG}
+  \caption{Loadings of PC1 and PC2}
+  \label{fig:fig3}
+\end{figure}
+
+Figure \ref{fig:fig3} visualizes top genes associated with PC1 and PC2 with PC scores on x-axis and genes on y-axis. Larger absolute value of component corresponds to a more important gene.
+
+
+
+
+

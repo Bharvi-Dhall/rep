@@ -1,0 +1,30 @@
+\BOOKMARK [0][]{chapter*.1}{Preface}{}% 1
+\BOOKMARK [0][]{chapter*.2}{Acknowledgement}{}% 2
+\BOOKMARK [0][]{chapter*.3}{Abstract}{}% 3
+\BOOKMARK [0][]{chapter*.4}{Table of Contents}{}% 4
+\BOOKMARK [0][]{chapter*.5}{List of figures}{}% 5
+\BOOKMARK [0][]{chapter*.6}{List of tables}{}% 6
+\BOOKMARK [0][]{chapter*.7}{Nomenclature}{}% 7
+\BOOKMARK [0][]{chapter.1}{1 INTRODUCTION}{}% 8
+\BOOKMARK [1][]{section.1.1}{1.1 Purpose and Motivation}{chapter.1}% 9
+\BOOKMARK [1][]{section.1.2}{1.2 Biological Background}{chapter.1}% 10
+\BOOKMARK [1][]{section.1.3}{1.3 Dataset Description and availability}{chapter.1}% 11
+\BOOKMARK [1][]{section.1.4}{1.4 RNA-Sequencing Workflow}{chapter.1}% 12
+\BOOKMARK [0][]{chapter.2}{2 Outline of Bioconductor Ecosystem}{}% 13
+\BOOKMARK [1][]{section.2.1}{2.1 Seurat object}{chapter.2}% 14
+\BOOKMARK [0][]{chapter.3}{3 Literature Review}{}% 15
+\BOOKMARK [0][]{chapter.4}{4 METHODOLOGY}{}% 16
+\BOOKMARK [1][]{section.4.1}{4.1 Pre-Processing of Data}{chapter.4}% 17
+\BOOKMARK [1][]{section.4.2}{4.2 Normalization of Data}{chapter.4}% 18
+\BOOKMARK [1][]{section.4.3}{4.3 Finding Variable Genes}{chapter.4}% 19
+\BOOKMARK [1][]{section.4.4}{4.4 Dimentionality Reduction}{chapter.4}% 20
+\BOOKMARK [1][]{section.4.5}{4.5 Clustering of cells and visualization}{chapter.4}% 21
+\BOOKMARK [1][]{section.4.6}{4.6 Differential Expression Analysis}{chapter.4}% 22
+\BOOKMARK [1][]{section.4.7}{4.7 Gene-coexpression analysis}{chapter.4}% 23
+\BOOKMARK [0][]{chapter.5}{5 RESULTS \(a\)}{}% 24
+\BOOKMARK [1][]{section.5.1}{5.1 Highly Variable Genes}{chapter.5}% 25
+\BOOKMARK [1][]{section.5.2}{5.2 Principal Component Analysis:}{chapter.5}% 26
+\BOOKMARK [0][]{chapter.6}{6 RESULTS \(b\)}{}% 27
+\BOOKMARK [0][]{appendix.A}{A Additional stuff}{}% 28
+\BOOKMARK [0][]{appendix.B}{B Linear Mixed Model}{}% 29
+\BOOKMARK [0][]{appendix*.20}{Bibliography}{}% 30

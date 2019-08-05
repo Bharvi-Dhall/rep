@@ -1,0 +1,79 @@
+---
+chapter:3
+knit: "bookdown::render_book"
+---
+
+#METHODOLOGY {#ch:methods}
+
+Analysis of scRNA datasets follows a similar pipeline for all datasets however the computational functions used may vary from one package to another. This section introduces the experimental design, describes pre-processing workflow to obtain suitable data for analysis and explains the various methods used for analysing the scRNA-seq datasets.
+
+
+##Pre-Processing of Data {#sec:Pre-pro}
+
+The new advancements in the field of health and medicine are dependent on the data being analysed. It is essential to ensure the use of high quality data to carry out such analysis. 
+Data recorded for scRNA-seq captures rna sequences in a cell using various sequencing technologies [@pareek2011sequencing], but computational and technological limitations often lead to capture of low quality data(improper or low mRNA reads in a cell).@haque2017practical reveals that even with the high RNA-seq protocols some mRNA sequences were not captured in the cell.To overcome this limitation,low quality cells are filtered before analysis to ensure that technical effects do not distort the downstream analysis results. The problematic cells which have low library size and cell coverages are removed. A library is the total number of reads aligned to each cell (total sum of counts across all genes). Cell coverage is the average number of expressed genes in a cell(average number of genes with non-zero counts). Low-quality / dying cells often exhibit extensive mitochondrial contamination, therefore cells with high mitochondrial genome transcript ratio are removed from the dataset \ref{sec:Pre-pro}.
+
+###Liver Dataset:
+The liver dataset was not filtered as normalized counts were already provided. Cells with a very small library size (<1500) and a very high (>0.5) mitochondrial genome transcript ratio were already removed as High proportions are indicative of poor-quality cells [@ilicic2016classification] .The resulting dataset was then normalised  \ref{sec:norm} to get normalised counts.[refer @macparland2018single].
+
+###Bonemarrow Dataset:
+The raw counts in the Bonemarrow dataset were processed and filtered to remove the unwanted cells.Seurat object stores the number of UMIs \footnote{Please refer to the document on  \url{https://www.illumina.com/science/sequencing-method-explorer/kits-and-arrays/umi.html} for more information on UMI} [@smith2017umi] per cell as nCount_RNA, number of features per cell as nFeature_RNA and the fraction of mitochondrial RNA as mt.percent in the metadata slot. The plot \ref{fig:fs} has been created to visualize QC metrics and feature-feature relationships to find the optimal cut-off value for filtering of cells.</br>
+
+
+\begin{figure}[H]
+  \includegraphics[scale=0.6]{featurescatter.jpg}
+  \caption{Feature Scatter Plot}
+  \label{fig:fs}
+\end{figure}
+
+Figure \ref{fig:fs} represents fraction of mitochondrial RNA (x-axis) and number of features (x-axis) verses number of UMIs per cell (y-axis), this plot assists in deciding optimum cutoff value for percent.mt and nFeatureRNA.
+Cells with a very small library size (<500) and a very high (>8%) mitochondrial genome transcript ratio were removed[@ilicic2016classification].After elimination of low quality cells the remaining cells were used for analysis. Refer section \ref{sec:bone}.
+
+##Normalization of Data {#sec:norm}  
+
+After filtering of unwanted cells next step is to normalize the data. Measurements from genetically distinct populations may occupy different scales and to make them comparable normalization is performed. The variance in the data tends to depend on the absolute intensity of the data which may lead to false biological conclusions and should be remedied by a normalization method [@evans2017selecting].</br>
+By default, Seurat[@seurat] uses a global-scaling normalization method “Log Normalize” that normalizes the gene expression measurements for each cell by the total expression, multiplies this by a scale factor (10,000 by default), and log-transforms the result [@cole2019performance]. The liver dataset already had normalized counts and the bone marrow dataset was normalized using function NormalizeData() \footnote{For documentation please refer \url{https://rdrr.io/cran/Seurat/man/NormalizeData.html}} in R[@team2013r].
+
+##Finding Variable Genes {#sec:vg}
+
+Variable features are identified after the data has been normalized. Feature selection is an important step when dealing with large datasets as it facilitates improved data quality and speeds up the procedure for analysis [@kursa2010feature]. Here, we will detect genes which are highly variable. In the case of scRNA-seq data, the variation of genes across cells can be a result of statistical noise rather than biological factors[@brennecke2013accounting]. Therefore, it becomes important to identify the subset of genes whose variability in the dataset exceeds the background of statistical noise.  
+  
+To find highly variable genes (HVG), genes processing high biological variations are targeted. Gene expression data may have heteroscedasticity [@yip2017linnorm], thus variance cannot be considered as the appropriate factor for determination of HVG.  
+  
+FindVariableFeatures \footnote{For documentation please refer \url{https://www.rdocumentation.org/packages/Seurat/versions/3.0.2/topics/FindVariableFeatures}}\label{refnote} function in Seurat v3 uses the relationship between variance and mean as the indicator of selecting HVG [@yip2018evaluation]. The default setting for selecting the HVG is method="vst" in which mean and variance for each gene is calculated and then log-transformed. A loess curve of polynomials of degree 2 is fit with a span of 0.3 to predict the variance of each gene as a function of its mean. The values are then standardised using the below transformation:
+
+$$z_{ij}=\frac{{x_{ij}}-\bar{x}_i}{\sigma_i}$$
+where $z_{ij}$ is the standardized value of feature i in cell j, $x_{ij}$ is the raw value of feature i in cell j, $\bar{x}_i$ is the mean raw value for feature i, and $\sigma_i$
+is the expected standard deviation of feature i.Then, the  variance for all standardized values is computed across all cells.[@stuart2019comprehensive].By default this function selects 2000 genes but this number can be adjusted by the use of argument "nfeatures"\footref{refnote}.The results have been discussed in section \ref{ch:results}
+
+##Dimentionality Reduction {#sec:dm} 
+
+Genomics data records the activity of thousands of cell or genes which makes the data larger. Larger datasets have computational limitations and are more complex.Dimensionality reduction is important when the number of features are more than the number of cases.Various Dimensionality Reduction techniques like Principle Component Analysis (PCA) [@wold1987principal], t-Distributed Stochastic Neighbor Embedding (t-SNE) [@maaten2008visualizing] and Uniform Manifold Approximation and Projection (UMAP) [@maaten2008visualizing] were used to reduce the dimensions and project the data in lower dimensions.This section describes the methodology used for performing dimensionality reduction.
+
+
+###Principle Component Analysis
+PCA is a linear feature extraction un-supervised learning technique widely for data with a high number of features [@wold1987principal]. It provides fully unsupervised information on the dominant directions of highest variability in the data and can, therefore, be used to investigate similarities between individual samples, or formation of clusters [@ringner2008principal]. PCA performs linear mapping of the data to lower dimensional space so that variance can be maximised which is done by calculating eigenvectors from the covariance matrix. Eigenvectors that correspond to the largest eigenvalues are used. [@wold1987principal].
+
+The data selected containing the HVG is scaled prior to running PCA using ScaleData\footnote{\url{https://www.rdocumentation.org/packages/Seurat/versions/3.0.2/topics/ScaleData}} function in Seurat v3.The ScaleData functions centres each feature to have a mean of 0 and then scales it by the standard deviation of each feature.
+
+PCA is performed on the selected data using RunPCA \footnote{\url{https://www.rdocumentation.org/packages/Seurat/versions/3.0.2/topics/RunPCA}} function in Seurat v3 and the results are stored in the reductions slot of Seurat Object.Results of PCA are discussed in section \ref{sec:pcares}. The optimal number of Principal Components (PCs) are picked using the JackStraw\footnote{\url{https://www.rdocumentation.org/packages/Seurat/versions/3.0.2/topics/JackStraw}} and Elbow\footnote{\url{https://www.rdocumentation.org/packages/GMD/versions/0.3.3/topics/elbow} Plots.
+
+JackStraw Plot was used to determine the optimum number of principal components for clustering.Jackstraw implements a resampling test inspired by the JackStraw procedure. It randomly permutes a subset of the data (1% by default) and reruns PCA, constructing a ‘null distribution’ of feature scores and thus identifying statistically significant PCs [@chung2018jackstraw].  
+The JackStraw Plot function \footnote{\url{https://www.rdocumentation.org/packages/Seurat/versions/3.0.2/topics/JackStrawPlot}} was used to visualize JackStraw results. Figure \ref{fig:figa} demonstrates the distribution of p-values for each PC with a uniform distribution (dashed line) and the PCs with curved lines above the distribution are statistically significant PCs.
+
+\begin{figure}[H]
+  \includegraphics[scale=0.4]{pcloadliver.JPG}
+  \caption{JackStaw Plot}
+  \label{fig:figa}
+\end{figure}
+
+
+###t-SNE
+
+##Clustering of cells and visualization
+
+##Differential Expression Analysis
+
+##Gene-coexpression analysis
+
+
